@@ -2,29 +2,20 @@ const express = require("express");
 
 const app = express();
 
-app.get("/user", (req, res) => {
+const { adminAuth, userAuth } = require("./middlewares/auth");
+
+app.use("/admin", adminAuth);
+
+app.get("/user", userAuth, (req, res) => {
   res.send({ name: "sai", city: "cbe" });
 });
 
-app.post("/user", (req, res) => {
-  console.log(req.body);
-  res.send("From post");
+app.get("/admin/getAdmin", (req, res) => {
+  res.send("Admin data fetched");
 });
 
-app.delete("/user", (req, res) => {
-  res.send("From delete");
-});
-
-app.use("/test", (req, res) => {
-  res.send("Hello from test");
-});
-
-app.use("/hello", (req, res) => {
-  res.send("Hello from hello");
-});
-
-app.use("/", (req, res) => {
-  res.send("Hello from server");
+app.get("/admin/deleteAdmin", (req, res) => {
+  res.send("Admin data deleted");
 });
 
 app.listen(3000, () => {
