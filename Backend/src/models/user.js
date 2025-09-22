@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
@@ -57,4 +59,28 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
+userSchema.methods.getJWT = async function () {
+  const user = this;
+
+  const token = await jwt.sign({ _id: user._id }, "someText", {
+    expiresIn: "7d",
+  });
+
+  return token;
+};
+
+userSchema.methods.validatePassword = async function (password) {
+  const user = this;
+
+  const isValidPassword = await bcrypt.compare(password, user.password);
+
+  return isValidPassword;
+};
+
+const User = mongoose.model("User", userSchema);
+
+User.init()
+  .then(() => console.log("✅ Indexes synced"))
+  .catch((err) => console.error("❌ Index creation error:", err));
+
+module.exports = User;
