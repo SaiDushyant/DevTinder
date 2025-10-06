@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/costants";
 const Login = () => {
   const [emailID, setEmailID] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ const Login = () => {
       dispatch(addUser(res.data));
       return navigate("/feed");
     } catch (error) {
+      setError(error?.response?.data);
       console.log(error);
     }
   };
@@ -31,7 +33,6 @@ const Login = () => {
     <div className="flex justify-center my-20">
       <fieldset className="fieldset bg-base-300 border-base-300 rounded-box w-xs border p-8">
         <legend className="fieldset-legend text-4xl">Login</legend>
-
         <label className="label text-xl">Email</label>
         <input
           type="email"
@@ -40,7 +41,6 @@ const Login = () => {
           value={emailID}
           onChange={(e) => setEmailID(e.target.value)}
         />
-
         <label className="label text-xl mt-4">Password</label>
         <input
           type="password"
@@ -49,8 +49,8 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-
-        <button className="btn btn-neutral mt-4 text-xl" onClick={handleLogin}>
+        {error && <p className="text-lg text-red-600 mt-2">{error}</p>}{" "}
+        <button className="btn btn-neutral mt-3 text-xl" onClick={handleLogin}>
           Login
         </button>
       </fieldset>
