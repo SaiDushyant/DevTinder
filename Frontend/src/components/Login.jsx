@@ -49,7 +49,7 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        {error && <p className="text-lg text-red-600 mt-2">{error}</p>}{" "}
+        {error && <p className="text-lg text-red-600 mt-2">{error}</p>}
         <button className="btn btn-neutral mt-3 text-xl" onClick={handleLogin}>
           Login
         </button>
