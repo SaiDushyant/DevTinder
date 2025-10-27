@@ -23,7 +23,7 @@ const Connections = () => {
   }, []);
   if (!connections) return;
   if (connections.length === 0) return <h1>No Connnection found</h1>;
-  console.log(connections);
+
   return (
     <div className="flex justify-center items-center flex-col">
       <h1 className="text-3xl text-center font-bold my-10">Connections</h1>
@@ -31,7 +31,7 @@ const Connections = () => {
         {connections.map((connection) => {
           const { firstName, lastName, gender, age, image, about } = connection;
           return (
-            <li className="list-row">
+            <li key={connection._id} className="list-row">
               <div>
                 <img className="size-16 rounded-full" src={image} />
               </div>
