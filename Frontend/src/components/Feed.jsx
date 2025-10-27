@@ -22,13 +22,17 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    if (!feed || feed.length === 0) {
+    if (!feed) {
       getFeed();
     }
   }, [feed]);
 
-  if (!feed || feed.length === 0) {
+  if (!feed) {
     return <p className="text-center mt-10">Loading feed...</p>;
+  }
+
+  if (feed.length === 0) {
+    return <p className="text-center mt-10">No User Found</p>;
   }
 
   return (
