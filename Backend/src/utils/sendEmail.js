@@ -3,45 +3,33 @@ const { sesClient } = require("./sesClient");
 
 const createSendEmailCommand = (toAddress, fromAddress, subject, body) => {
   return new SendEmailCommand({
-    Destination: {
-      /* required */
-      CcAddresses: [
-        /* more items */
-      ],
-      ToAddresses: [
-        toAddress,
-        /* more To-email addresses */
-      ],
-    },
+    Destination: { ToAddresses: [toAddress] },
     Message: {
-      /* required */
       Body: {
-        /* required */
         Html: {
           Charset: "UTF-8",
-          Data: `<h1>${body}</h1>`,
+          Data: `<h1>${body || "No body provided"}</h1>`,
         },
         Text: {
           Charset: "UTF-8",
-          Data: "TEXT_FORMAT_BODY",
+          Data: body || "No body provided",
         },
       },
       Subject: {
         Charset: "UTF-8",
-        Data: subject,
+        Data: subject || "DevTinder Notification",
       },
     },
     Source: fromAddress,
-    ReplyToAddresses: [
-      /* more items */
-    ],
   });
 };
 
 const run = async (subject, body) => {
   const sendEmailCommand = createSendEmailCommand(
-    "saidushyant04@gmail.com",
-    "sai@devtinder123.run.place"
+    "saidushyant04@gmail.com", // To address
+    "sai@devtinder123.run.place", // From address (must be verified in SES)
+    subject || "DevTinder Notification", // ✅ pass subject here
+    body || "You have a new update on DevTinder!" // ✅ pass body here
   );
 
   try {
